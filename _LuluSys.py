@@ -50,8 +50,10 @@ def bot():
     incoming_number = request.form['From']
     msg = resp.message()
     responded = False
+    global wolframmode
+    wolframmode = 0
 
-    if 'wolfram mode' not in incoming_msg and wolframmode == 1:
+    if 'wolfram mode' not in incoming_msg and wolframmode==1:
         question = incoming_msg
         wolframapi = os.getenv('WOLFRAMAPI')
         client = wolframalpha.Client(wolframapi)
@@ -64,14 +66,14 @@ def bot():
         msg.body(txtmsg)
         responded = True
 
-    elif 'wolfram mode' in incoming_msg and wolframmode == 1:
-        global wolframmode
+
+    elif 'wolfram mode' in incoming_msg and wolframmode==1:
         wolframmode = 1
         txtmsg = "Wolfram Mode enabled."
         msg.body(txtmsg)
         responded = True
 
-    elif 'wolfram mode' in incoming_msg and wolframmode == 0:
+    elif 'wolfram mode' in incoming_msg and wolframmode==0:
         global wolframmode
         wolframmode = 1
         txtmsg = "Wolfram Mode enabled."
@@ -95,7 +97,6 @@ def bot():
             msg.body(txtmsg)
             responded = True
 
-
     elif 'wolfram long' in incoming_msg and responded==False:
     	question = incoming_msg.replace('wolfram full', '')
     	parsed = urllib.parse.quote_plus(question)
@@ -112,7 +113,6 @@ def bot():
             txtmsg = "Invalid input."
             msg.body(txtmsg)
             responded = True
-
 
     elif 'wolfram' in incoming_msg and responded==False:
         question = incoming_msg.replace('wolfram', '')
@@ -285,6 +285,16 @@ def bot():
     	txtmsg = 'Want to add more things? How about life360 (https://www.home-assistant.io/integrations/life360/#:~:text=From%20the%20configuration%20menu%20select,to%20complete%20the%20set%20up.), DEPLOY TO PRODUCTION (https://flask.palletsprojects.com/en/2.2.x/tutorial/deploy) texting other people, calling myself, setting up an HTTP get request to my website, phone number profiles, push to github, auto update with keyword, update code through texting (like bills, maybe with a database https://pythonbasics.org/flask-sqlalchemy/#:~:text=Step%201%20%2D%20Install%20the%20Flask%2DSQLAlchemy%20extension.&text=Step%202%20%2D%20You%20need%20to,SQLAlchemy%20class%20from%20this%20module.&text=Step%203%20%2D%20Now%20create%20a,for%20the%20database%20to%20use.&text=Step%204%20%2D%20then%20use%20the,an%20object%20of%20class%20SQLAlchemy.), and a phone extension!'
     	msg.body(txtmsg)
     	responded = True
+
+    elif 'update' in incoming_msg and responded==False:
+        os.system('sh download.sh')
+        if incoming_number==ADMIN:
+            sendMsg('Downloading new version, restarting now.', ADMIN)
+            sys.exit()
+        else:
+            sendMsg('Downloading new version, restarting now.', incoming_number)
+            sendMsg('Update triggered by ' + incoming_number, ADMIN)
+        	sys.exit()
 
     elif 'lulu' in incoming_msg and responded==False:
     	txtmsg = "Current version v0.4 \n Hi! I'm a bot that was made by Dillon originally for checking banking info, but now way more!!"

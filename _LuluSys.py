@@ -5,6 +5,8 @@ from datetime import date
 from datetime import datetime
 from datetime import timedelta
 
+from twilio.rest import Client
+
 import selenium
 from selenium import webdriver
 from datetime import datetime
@@ -16,6 +18,10 @@ from selenium.webdriver.chrome.options import Options
 
 import wolframalpha
 import urllib.parse
+
+global wolframmode
+wolframmode = 0
+
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -50,8 +56,6 @@ def bot():
     incoming_number = request.form['From']
     msg = resp.message()
     responded = False
-    global wolframmode
-    wolframmode = 0
 
     if 'wolfram mode' not in incoming_msg and wolframmode==1:
         question = incoming_msg
@@ -67,6 +71,7 @@ def bot():
         responded = True
 
 
+
     elif 'wolfram mode' in incoming_msg and wolframmode==1:
         wolframmode = 1
         txtmsg = "Wolfram Mode enabled."
@@ -74,7 +79,6 @@ def bot():
         responded = True
 
     elif 'wolfram mode' in incoming_msg and wolframmode==0:
-        global wolframmode
         wolframmode = 1
         txtmsg = "Wolfram Mode enabled."
         msg.body(txtmsg)
@@ -304,7 +308,6 @@ def bot():
     elif not responded:
         msg.body('Invalid input. I can respond to prompts that include "bills", "time", "the code", "lulu", "idea", "wolfram", "*wolfram mode", "wolfram long" or "wolfram full", and "cat".')
     return str(resp)
-
 
 if __name__ == '__main__':
     app.run()

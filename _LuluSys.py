@@ -31,6 +31,7 @@ AUTH = os.getenv('AUTH')
 PHONE = os.getenv('PHONE')
 ADMIN = os.getenv('ADMIN')
 
+number = ADMIN
 
 def sendMsg(msg, number):
     client = Client(SID, AUTH)

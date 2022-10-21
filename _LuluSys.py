@@ -292,7 +292,7 @@ def bot():
     	responded = True
 
     elif 'update' in incoming_msg and responded==False:
-        os.system('sh download.sh')
+        os.system('sh downloadUpdate.sh')
         if incoming_number==ADMIN:
             sendMsg('Downloading new version, restarting now.', ADMIN)
             sys.exit()

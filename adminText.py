@@ -15,7 +15,7 @@ msg = input("Enter your text message to admin: ")
 
 message = client.messages \
     .create(
-         body=msg
+         body=msg,
          from_=PHONE,
          to=ADMIN
      )

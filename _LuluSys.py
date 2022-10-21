@@ -291,15 +291,15 @@ def bot():
     	msg.body(txtmsg)
     	responded = True
 
-#    elif 'update' in incoming_msg and responded==False:
-#        os.system('sh downloadUpdate.sh')
-#        if incoming_number==ADMIN:
-#            sendMsg('Downloading new version, restarting now.', ADMIN)
-#            sys.exit()
-#        else:
-#            sendMsg('Downloading new version, restarting now.', incoming_number)
-#            sendMsg('Update triggered by ' + incoming_number, ADMIN)
-#            sys.exit()
+    elif 'update' in incoming_msg and responded==False:
+        os.system('sh downloadUpdate.sh')
+        if incoming_number==ADMIN:
+            sendMsg('Downloading new version, restarting now.', ADMIN)
+            sys.exit()
+        else:
+            sendMsg('Downloading new version, restarting now.', incoming_number)
+            sendMsg('Update triggered by ' + incoming_number, ADMIN)
+            sys.exit()
 
     elif 'lulu' in incoming_msg and responded==False:
     	txtmsg = "Current version v0.4 \n Hi! I'm a bot that was made by Dillon originally for checking banking info, but now way more!!"
